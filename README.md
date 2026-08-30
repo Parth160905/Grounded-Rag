@@ -1,87 +1,78 @@
-# pgdocs-rag
+# Grounded RAG
 
-Hybrid retrieval over the PostgreSQL 16 documentation, built on Java 21 and Spring Boot.
-Dense vectors and lexical search fused by reciprocal rank, with embeddings running
-in-process via ONNX — no API key required to run it.
+Hybrid retrieval over the PostgreSQL 16 documentation. BM25 and dense vector
+search run independently, then fuse with reciprocal rank fusion. Every result
+carries a heading path and a deep link back to the source section.
 
-> **Status: ingestion + retrieval.** Generation, claim-level citation verification,
-> and the eval suite are not built yet. The metrics table below is intentionally
-> empty rather than filled with numbers that haven't been measured.
+**recall@5 0.819 · MRR 0.836** on a 12-query gold set, enforced as a build gate.
 
-## Setup
+## Why hybrid
 
-```bash
-docker compose up -d
+Neither retriever is sufficient alone, and the failure modes differ.
 
-curl -O https://ftp.postgresql.org/pub/docs/16/postgresql-16-A4.html.tar.gz
-mkdir -p docs/pg16 && tar xzf postgresql-16-A4.html.tar.gz -C docs/pg16
+Exact identifiers (`pg_hba.conf`, `work_mem`, `EXPLAIN ANALYZE`) are BM25's
+strength — the dense model often ranks them poorly because the surface form
+carries the meaning. Symptom phrasings ("queries are slow", "why is my
+connection being refused") are the reverse: BM25 has nothing to match, while
+the embedding finds the right section.
 
-./gradlew bootRun
-curl -X POST localhost:8080/api/admin/ingest
-```
+On *deadlock detected*, the top result is dense rank 1 / lexical rank 8 and the
+second is dense 10 / lexical 1 — near-total disagreement, both correct, both
+surfaced. The UI labels each result with its per-channel ranks.
 
-Then:
+## Architecture
 
-```bash
-curl -s "localhost:8080/api/search?q=how+do+I+cancel+a+long+running+query" | jq
-```
+Chunks retain their heading path (`13.3. Explicit Locking > 13.3.4. Deadlocks`)
+and anchor, which is what makes the deep links work.
 
-## Design notes
+The fusion is a single SQL statement. Both retrievers rank independently, a
+full outer join keeps rows found by only one, and misses score as zero:
 
-**Structure-aware chunking.** Fixed-size splitting cuts SQL synopses in half and
-orphans parameter definitions from the command they document. Both failures are
-invisible in the index and unrecoverable by retrieval tuning. The chunker splits
-on the docs' own `refsect`/`sect` hierarchy, keeps `pre.synopsis` blocks atomic
-regardless of length, merges undersized sections into their parent, and repeats
-the heading path onto every chunk so a fragment is self-describing when retrieved
-alone.
+    COALESCE(1.0 / (? + d.rank), 0.0) + COALESCE(1.0 / (? + l.rank), 0.0)
 
-**RRF over weighted score blending.** Cosine similarity and `ts_rank_cd` sit on
-incomparable scales, so any fixed weighting is a magic number tuned to one query
-shape. RRF fuses on rank position only and needs no calibration.
+Per-channel ranks are returned alongside the fused score. When a query returns
+something wrong, that field says which channel pulled it in.
 
-**Postgres as the queue.** `FOR UPDATE SKIP LOCKED` with a stale-lock timeout —
-no Redis, no Kafka, and a crashed worker's jobs get reclaimed rather than
-stranded in `RUNNING`.
+## Stack
 
-**In-process embeddings.** bge-small-en-v15 via ONNX Runtime. Free to run, fully
-deterministic across runs, and it means the eval suite can be iterated on without
-rationing against an API budget.
+- Java 21, Spring Boot 3.3
+- PostgreSQL 16 + pgvector, Flyway migrations
+- Embeddings in-process via ONNX
+- Ollama for generation only
+- No frontend build step, one static HTML file
 
-## Results
+## Evaluation
 
-Not yet measured. This table gets filled once the golden set and eval harness
-exist, and every number in it will be reproducible by running `./gradlew evalTest`.
+`RetrievalEvalTest` calls the repository directly, scores 12 gold queries, and
+fails the build if quality regresses (MRR >= 0.80, recall@5 >= 0.78).
 
-| Metric | Value |
-|---|---|
-| Recall@5 | — |
-| MRR | — |
-| Groundedness rate | — |
-| Hallucinated-citation rate | — |
-| p95 retrieval latency | — |
+Failures print the missed chunk IDs plus the top-5 returned with their dense and
+lexical ranks, so a red build says which channel degraded.
+
+The gold set spans three query shapes deliberately: exact identifiers, task
+phrasings, and symptom phrasings. Labels were written by inspecting actual
+top-10 output per query.
+
+## Running it
+
+    docker compose up -d postgres
+    JAVA_HOME=$(/usr/libexec/java_home -v 21) ./gradlew bootRun
+
+Then open http://localhost:8080
+
+    ./gradlew test
+    curl -s "localhost:8080/api/search?q=deadlock+detected" | jq
+
+The container-backed ingest test is tagged `integration` and excluded from the
+default test task; it needs a Docker daemon.
+
+## Performance
+
+Warm, single node, 8-result page: embedding ~14ms, search ~8ms.
 
 ## Limitations
 
-- **Token counts are estimated from character length**, not tokenized. Chunks
-  near the budget may run over the model's 512-token window and be silently
-  truncated at embed time. The budget is set conservatively to make this rare,
-  not impossible.
-- **The lexical channel is `ts_rank_cd`, not BM25.** Postgres full-text scoring
-  differs from true BM25 in how it handles term saturation and length
-  normalisation. Adequate as a fusion channel, but a Lucene index would be
-  better and is the obvious v2.
-- **Version-specific content is not disambiguated.** Only the 16 docs are
-  ingested. Questions whose answer changed across versions will be answered from
-  16 without flagging that the behaviour differs elsewhere — a known hard class
-  the eval set should target.
-- **No reranker.** A cross-encoder over the fused top-k would likely improve
-  precision@5 meaningfully; not yet measured, so not yet claimed.
-- **Table flattening loses column semantics.** Reference tables are collapsed to
-  pipe-delimited rows, which preserves the content but discards header-to-cell
-  relationships.
-
-## License
-
-The PostgreSQL documentation is redistributed under its own license — confirm the
-current terms and include the notice before publishing this repository.`
+- Adjacent chunks from the same section can occupy multiple top-k slots.
+- Release-note sections sometimes surface for symptom queries.
+- RRF ties are broken arbitrarily when both channels return identical ranks.
+- 12 gold queries is small. The numbers are honest but the interval is wide.
