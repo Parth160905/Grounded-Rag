@@ -77,7 +77,7 @@ const goEl = document.getElementById('go');
 const outEl = document.getElementById('results');
 const timeEl = document.getElementById('timing');
 
-const clean = (t, path) => t.startsWith(path) ? t.slice(path.length).replace(/^[\s#>]+/, '') : t;
+const clean = (t, path) => { let o = t.startsWith(path) ? t.slice(path.length) : t; o = o.replace(/^[\s#>]+/, ''); const n = o.indexOf('\n'); if (n > 0 && n < 80 && path.includes(o.slice(0, n).replace(/\s*#\s*$/, '').trim())) o = o.slice(n); return o.replace(/^[\s#>]+/, ''); };
 const esc = s => (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 function badges(h) {
@@ -104,7 +104,6 @@ async function search() {
     outEl.innerHTML = data.results.length
       ? data.results.map(h => `
         <div class="hit">
-          <div class="path">${esc(h.headingPath)}</div>
           <div class="snippet">${esc(clean(h.snippet||h.text||'', h.headingPath).slice(0,320))}…</div>
           <div class="meta">${badges(h)}<a href="${esc(h.deepLink)}" target="_blank" rel="noopener">open docs ↗️</a></div>
         </div>`).join('')
