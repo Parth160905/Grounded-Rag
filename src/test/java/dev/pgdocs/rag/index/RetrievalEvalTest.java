@@ -72,8 +72,8 @@ class RetrievalEvalTest {
         System.out.println("-".repeat(72));
         System.out.printf("recall@%d: %.3f   MRR: %.3f   (n=%d)%n%n", K, recallAtK, mrr, n);
 
-        assertTrue(mrr >= 0.60, "MRR regressed: " + mrr);
-        assertTrue(recallAtK >= 0.50, "recall@" + K + " regressed: " + recallAtK);
+        assertTrue(mrr >= 0.80, "MRR regressed: " + mrr);
+        assertTrue(recallAtK >= 0.78, "recall@" + K + " regressed: " + recallAtK);
     }
 
     private static String diff(Set<Long> relevant, List<Long> got) {

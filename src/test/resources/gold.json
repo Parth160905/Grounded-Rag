@@ -2,6 +2,15 @@
   "queries": [
     { "q": "why is my connection being refused", "relevant": [1940, 1941] },
     { "q": "how do I configure the database", "relevant": [2759, 658] },
-    { "q": "pg_hba.conf", "relevant": [447, 459, 458] }
+    { "q": "pg_hba.conf", "relevant": [447, 459, 458] },
+    { "q": "how do I back up a database", "relevant": [661, 766, 670] },
+    { "q": "work_mem", "relevant": [3312, 3308, 3309] },
+    { "q": "how do I create an index", "relevant": [3000, 3001, 2982] },
+    { "q": "queries are slow", "relevant": [610, 611, 2666] },
+    { "q": "VACUUM", "relevant": [3930, 3940, 3933] },
+    { "q": "how do I restore from a dump", "relevant": [1038, 665, 1052] },
+    { "q": "out of shared memory", "relevant": [2486, 2485, 2478] },
+    { "q": "EXPLAIN ANALYZE", "relevant": [5001, 4996, 4997] },
+    { "q": "deadlock detected", "relevant": [1559, 1557, 1558] }
   ]
 }

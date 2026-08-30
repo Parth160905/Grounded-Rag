@@ -5,3 +5,8 @@ build/
 *.iml
 .DS_Store
 gradle.properties
+docs/pg16/
+postgresql-16.15/
+postgresql-16.15.tar.gz
+ingest-result.json
+eval/run_eval.py
