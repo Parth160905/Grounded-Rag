@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grounded RAG — Postgres 16 docs</title>
+<style>
+  :root {
+    --bg:#0d1117; --panel:#161b22; --border:#30363d;
+    --fg:#e6edf3; --dim:#8b949e; --accent:#58a6ff;
+    --dense:#bc8cff; --lex:#7ee787;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; padding:2rem 1rem; background:var(--bg); color:var(--fg);
+    font:15px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  .wrap { max-width:820px; margin:0 auto; }
+  h1 { font-size:1.1rem; font-weight:600; margin:0 0 .25rem; }
+  .sub { color:var(--dim); font-size:.85rem; margin-bottom:1.5rem; }
+  .searchbar { display:flex; gap:.5rem; margin-bottom:.75rem; }
+  input {
+    flex:1; padding:.7rem .9rem; background:var(--panel); color:var(--fg);
+    border:1px solid var(--border); border-radius:6px; font:inherit;
+  }
+  input:focus { outline:none; border-color:var(--accent); }
+  button {
+    padding:.7rem 1.2rem; background:var(--accent); color:#0d1117;
+    border:0; border-radius:6px; font:inherit; font-weight:600; cursor:pointer;
+  }
+  button:disabled { opacity:.5; cursor:default; }
+  .timing { color:var(--dim); font-size:.8rem; min-height:1.2rem; margin-bottom:1rem; }
+  .hit {
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:6px; padding:.9rem 1rem; margin-bottom:.75rem;
+  }
+  .path { font-size:.78rem; color:var(--dim); margin-bottom:.4rem; word-break:break-word; }
+  .snippet { font-size:.88rem; margin-bottom:.6rem; white-space:pre-wrap; }
+  .meta { display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; font-size:.72rem; }
+  .badge {
+    padding:.15rem .5rem; border-radius:10px;
+    border:1px solid var(--border); color:var(--dim);
+  }
+  .badge.d { color:var(--dense); border-color:var(--dense); }
+  .badge.l { color:var(--lex);   border-color:var(--lex); }
+  a { color:var(--accent); text-decoration:none; margin-left:auto; }
+  a:hover { text-decoration:underline; }
+  .empty { color:var(--dim); text-align:center; padding:2rem 0; }
+  .examples { font-size:.78rem; color:var(--dim); margin-bottom:1.5rem; }
+  .examples span { cursor:pointer; text-decoration:underline; margin-right:.8rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Grounded RAG</h1>
+  <div class="sub">Hybrid retrieval over the PostgreSQL 16 documentation — BM25 + dense embeddings fused with reciprocal rank fusion.</div>
+
+  <div class="searchbar">
+    <input id="q" placeholder="how do I configure the database" autofocus>
+    <button id="go">Search</button>
+  </div>
+
+  <div class="examples">
+    try:
+    <span data-q="deadlock detected">deadlock detected</span>
+    <span data-q="work_mem">work_mem</span>
+    <span data-q="queries are slow">queries are slow</span>
+  </div>
+
+  <div class="timing" id="timing"></div>
+  <div id="results"><div class="empty">Enter a query to search.</div></div>
+</div>
+
+<script>
+const qEl = document.getElementById('q');
+const goEl = document.getElementById('go');
+const outEl = document.getElementById('results');
+const timeEl = document.getElementById('timing');
+
+const clean = (t, path) => t.startsWith(path) ? t.slice(path.length).replace(/^[\s#>]+/, '') : t;
+const esc = s => (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function badges(h) {
+  const b = [];
+  if (h.denseRank != null)   b.push(`<span class="badge d">dense ${h.denseRank}</span>`);
+  if (h.lexicalRank != null) b.push(`<span class="badge l">lexical ${h.lexicalRank}</span>`);
+  if (h.denseRank == null)   b.push(`<span class="badge">lexical only</span>`);
+  if (h.lexicalRank == null) b.push(`<span class="badge">dense only</span>`);
+  b.push(`<span class="badge">rrf ${h.rrfScore.toFixed(4)}</span>`);
+  return b.join('');
+}
+
+async function search() {
+  const q = qEl.value.trim();
+  if (!q) return;
+  goEl.disabled = true;
+  timeEl.textContent = 'searching…';
+  outEl.innerHTML = '';
+  try {
+    const res = await fetch('/api/search?q=' + encodeURIComponent(q) + '&limit=8');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    timeEl.textContent = `${data.results.length} results · embed ${data.embedMs}ms · search ${data.searchMs}ms`;
+    outEl.innerHTML = data.results.length
+      ? data.results.map(h => `
+        <div class="hit">
+          <div class="path">${esc(h.headingPath)}</div>
+          <div class="snippet">${esc(clean(h.snippet||h.text||'', h.headingPath).slice(0,320))}…</div>
+          <div class="meta">${badges(h)}<a href="${esc(h.deepLink)}" target="_blank" rel="noopener">open docs ↗️</a></div>
+        </div>`).join('')
+      : '<div class="empty">No results.</div>';
+  } catch (e) {
+    timeEl.textContent = '';
+    outEl.innerHTML = `<div class="empty">Error: ${esc(e.message)}</div>`;
+  } finally {
+    goEl.disabled = false;
+  }
+}
+
+goEl.onclick = search;
+qEl.onkeydown = e => { if (e.key === 'Enter') search(); };
+document.querySelectorAll('.examples span').forEach(s => {
+  s.onclick = () => { qEl.value = s.dataset.q; search(); };
+});
+</script>
+</body>
+</html>
