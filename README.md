@@ -4,6 +4,8 @@ Hybrid retrieval over the PostgreSQL 16 documentation. BM25 and dense vector
 search run independently, then fuse with reciprocal rank fusion. Every result
 carries a heading path and a deep link back to the source section.
 
+![Search UI](docs/screenshot.png)
+
 **recall@5 0.819 · MRR 0.836** on a 12-query gold set, enforced as a build gate.
 
 ## Why hybrid
