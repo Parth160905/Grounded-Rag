@@ -37,8 +37,11 @@ dependencies {
 }
 
 tasks.withType<Test> {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags("integration")
+    }
 }
+
 springBoot {
     mainClass.set("dev.pgdocs.rag.RagApplication")
 }

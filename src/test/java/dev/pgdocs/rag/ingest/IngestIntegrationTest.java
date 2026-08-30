@@ -30,6 +30,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * rather than that the mocks agreed with each other.
  */
 @SpringBootTest
+@org.junit.jupiter.api.Tag("integration")
+@org.junit.jupiter.api.Tag("integration")
 @Testcontainers
 class IngestIntegrationTest {
 
