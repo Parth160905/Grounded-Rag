@@ -86,8 +86,8 @@ public class HybridSearchRepository {
                 (rs, n) -> new Hit(
                         rs.getLong("id"),
                         rs.getDouble("rrf_score"),
-                        (Integer) rs.getObject("dense_rank"),
-                        (Integer) rs.getObject("lexical_rank"),
+                        rs.getObject("dense_rank") == null ? null : ((Number) rs.getObject("dense_rank")).intValue(),
+                        rs.getObject("lexical_rank") == null ? null : ((Number) rs.getObject("lexical_rank")).intValue(),
                         rs.getString("heading_path"),
                         rs.getString("anchor"),
                         rs.getString("text"),
