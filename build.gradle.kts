@@ -32,8 +32,8 @@ dependencies {
     implementation("org.jsoup:jsoup:1.18.1")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.testcontainers:postgresql")
-    testRuntimeOnly("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:junit-jupiter")
 }
 
 tasks.withType<Test> {

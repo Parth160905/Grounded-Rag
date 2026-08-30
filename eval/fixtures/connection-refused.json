@@ -1,0 +1,95 @@
+{
+    "query": "why is my connection being refused",
+    "results": [
+        {
+            "chunkId": 1940,
+            "docTitle": "19.3.\u00a0Starting the Database Server",
+            "headingPath": "19.3.\u00a0Starting the Database Server > 19.3. Starting the Database Server # > 19.3.2. Client Connection Problems #",
+            "deepLink": "https://www.postgresql.org/docs/16/server-start.html#CLIENT-CONNECTION-PROBLEMS",
+            "snippet": "19.3.\u00a0Starting the Database Server > 19.3. Starting the Database Server # > 19.3.2. Client Connection Problems #\n\n19.3.2.\u00a0Client Connection Problems #\n\n Although the error conditions possible on the client side are quite\n varied and application-dependent, a few of them might be directly\n related to how the server was started. Conditions other than\n those shown below should be documented with the r\u2026",
+            "tokenCount": 352,
+            "rrfScore": 0.03252247488101533,
+            "denseRank": 1,
+            "lexicalRank": 2
+        },
+        {
+            "chunkId": 1941,
+            "docTitle": "19.3.\u00a0Starting the Database Server",
+            "headingPath": "19.3.\u00a0Starting the Database Server > 19.3. Starting the Database Server # > 19.3.2. Client Connection Problems #",
+            "deepLink": "https://www.postgresql.org/docs/16/server-start.html#CLIENT-CONNECTION-PROBLEMS",
+            "snippet": "19.3.\u00a0Starting the Database Server > 19.3. Starting the Database Server # > 19.3.2. Client Connection Problems #\n\nA connection failure message always shows the server address or socket\n path name, which is useful in verifying that the client is trying to\n connect to the right place. If there is in fact no server\n listening there, the kernel error message will typically be either\n Connection refuse\u2026",
+            "tokenCount": 233,
+            "rrfScore": 0.03252247488101533,
+            "denseRank": 2,
+            "lexicalRank": 1
+        },
+        {
+            "chunkId": 2493,
+            "docTitle": "19.4.\u00a0Managing Kernel Resources",
+            "headingPath": "19.4.\u00a0Managing Kernel Resources > 19.4. Managing Kernel Resources # > 19.4.3. Resource Limits #",
+            "deepLink": "https://www.postgresql.org/docs/16/kernel-resources.html#KERNEL-RESOURCES-LIMITS",
+            "snippet": "19.4.\u00a0Managing Kernel Resources > 19.4. Managing Kernel Resources # > 19.4.3. Resource Limits #\n\nAnother kernel limit that may be of concern when supporting large\n numbers of client connections is the maximum socket connection queue\n length. If more than that many connection requests arrive within a very\n short period, some may get rejected before the PostgreSQL server can service\n the requests, w\u2026",
+            "tokenCount": 238,
+            "rrfScore": 0.03057889822595705,
+            "denseRank": 8,
+            "lexicalRank": 3
+        },
+        {
+            "chunkId": 510,
+            "docTitle": "21.15.\u00a0Authentication Problems",
+            "headingPath": "21.15.\u00a0Authentication Problems > 21.15. Authentication Problems #",
+            "deepLink": "https://www.postgresql.org/docs/16/client-authentication-problems.html#CLIENT-AUTHENTICATION-PROBLEMS",
+            "snippet": "21.15.\u00a0Authentication Problems > 21.15. Authentication Problems #\n\n21.15.\u00a0Authentication Problems #\n\n Authentication failures and related problems generally\n manifest themselves through error messages like the following:\n \n\nFATAL: no pg_hba.conf entry for host \"123.123.123.123\", user \"andym\", database \"testdb\"\n\n This is what you are most likely to get if you succeed in contacting\n the server, but \u2026",
+            "tokenCount": 380,
+            "rrfScore": 0.03055037313432836,
+            "denseRank": 7,
+            "lexicalRank": 4
+        },
+        {
+            "chunkId": 1938,
+            "docTitle": "19.3.\u00a0Starting the Database Server",
+            "headingPath": "19.3.\u00a0Starting the Database Server > 19.3. Starting the Database Server # > 19.3.1. Server Start-up Failures #",
+            "deepLink": "https://www.postgresql.org/docs/16/server-start.html#SERVER-START-FAILURES",
+            "snippet": "19.3.\u00a0Starting the Database Server > 19.3. Starting the Database Server # > 19.3.1. Server Start-up Failures #\n\n19.3.1.\u00a0Server Start-up Failures #\n\n There are several common reasons the server might fail to\n start. Check the server's log file, or start it by hand (without\n redirecting standard output or standard error) and see what error\n messages appear. Below we explain some of the most common e\u2026",
+            "tokenCount": 382,
+            "rrfScore": 0.015873015873015872,
+            "denseRank": 3,
+            "lexicalRank": null
+        },
+        {
+            "chunkId": 2409,
+            "docTitle": "20.3.\u00a0Connections and Authentication",
+            "headingPath": "20.3.\u00a0Connections and Authentication > 20.3. Connections and Authentication # > 20.3.1. Connection Settings #",
+            "deepLink": "https://www.postgresql.org/docs/16/runtime-config-connection.html#RUNTIME-CONFIG-CONNECTION-SETTINGS",
+            "snippet": "20.3.\u00a0Connections and Authentication > 20.3. Connections and Authentication # > 20.3.1. Connection Settings #\n\nmax_connections (integer)\n \n #\n Determines the maximum number of concurrent connections to the\n database server. The default is typically 100 connections, but\n might be less if your kernel settings will not support it (as\n determined during initdb). This parameter can\n only be set at serv\u2026",
+            "tokenCount": 386,
+            "rrfScore": 0.015625,
+            "denseRank": 4,
+            "lexicalRank": null
+        },
+        {
+            "chunkId": 1180,
+            "docTitle": "postgres",
+            "headingPath": "postgres > Diagnostics",
+            "deepLink": "https://www.postgresql.org/docs/16/app-postgres.html#id-1.9.5.14.8",
+            "snippet": "postgres > Diagnostics\n\nDiagnostics\n\n A failure message mentioning semget or\n shmget probably indicates you need to configure your\n kernel to provide adequate shared memory and semaphores. For more\n discussion see Section\u00a019.4. You might be able\n to postpone reconfiguring your kernel by decreasing shared_buffers to reduce the shared memory\n consumption of PostgreSQL, and/or by reducing\n max_connec\u2026",
+            "tokenCount": 385,
+            "rrfScore": 0.015384615384615385,
+            "denseRank": 5,
+            "lexicalRank": null
+        },
+        {
+            "chunkId": 1535,
+            "docTitle": "27.4.\u00a0Hot Standby",
+            "headingPath": "27.4.\u00a0Hot Standby > 27.4. Hot Standby # > 27.4.3. Administrator's Overview #",
+            "deepLink": "https://www.postgresql.org/docs/16/hot-standby.html#HOT-STANDBY-ADMIN",
+            "snippet": "27.4.\u00a0Hot Standby > 27.4. Hot Standby # > 27.4.3. Administrator's Overview #\n\n27.4.3.\u00a0Administrator's Overview #\n\n If hot_standby is on in postgresql.conf\n (the default value) and there is a\n standby.signal\n file present, the server will run in hot standby mode.\n However, it may take some time for hot standby connections to be allowed,\n because the server will not accept connections until it has c\u2026",
+            "tokenCount": 414,
+            "rrfScore": 0.015384615384615385,
+            "denseRank": null,
+            "lexicalRank": 5
+        }
+    ],
+    "embedMs": 5,
+    "searchMs": 11
+}

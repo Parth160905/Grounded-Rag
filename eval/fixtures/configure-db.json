@@ -1,0 +1,95 @@
+{
+    "query": "how do I configure the database",
+    "results": [
+        {
+            "chunkId": 2759,
+            "docTitle": "23.4.\u00a0Database Configuration",
+            "headingPath": "23.4.\u00a0Database Configuration > 23.4. Database Configuration #",
+            "deepLink": "https://www.postgresql.org/docs/16/manage-ag-config.html#MANAGE-AG-CONFIG",
+            "snippet": "23.4.\u00a0Database Configuration > 23.4. Database Configuration #\n\n23.4.\u00a0Database Configuration #\n\n Recall from Chapter\u00a020 that the\n PostgreSQL server provides a large number of\n run-time configuration variables. You can set database-specific\n default values for many of these settings.\n \n\n For example, if for some reason you want to disable the\n GEQO optimizer for a given database, you'd\n ordinarily h\u2026",
+            "tokenCount": 266,
+            "rrfScore": 0.032266458495966696,
+            "denseRank": 3,
+            "lexicalRank": 1
+        },
+        {
+            "chunkId": 3298,
+            "docTitle": "ALTER DATABASE",
+            "headingPath": "ALTER DATABASE > Parameters",
+            "deepLink": "https://www.postgresql.org/docs/16/sql-alterdatabase.html#id-1.9.3.7.6",
+            "snippet": "ALTER DATABASE > Parameters\n\nParameters\n\nname\n The name of the database whose attributes are to be altered.\n \n\nallowconn\n If false then no one can connect to this database.\n \n\nconnlimit\n How many concurrent connections can be made\n to this database. -1 means no limit.\n \n\nistemplate\n If true, then this database can be cloned by any user with CREATEDB\n privileges; if false, then only superusers or t\u2026",
+            "tokenCount": 357,
+            "rrfScore": 0.025793650793650792,
+            "denseRank": 24,
+            "lexicalRank": 12
+        },
+        {
+            "chunkId": 4114,
+            "docTitle": "CREATE DATABASE",
+            "headingPath": "CREATE DATABASE > Notes",
+            "deepLink": "https://www.postgresql.org/docs/16/sql-createdatabase.html#id-1.9.3.61.7",
+            "snippet": "CREATE DATABASE > Notes\n\nNotes\n\n CREATE DATABASE cannot be executed inside a transaction\n block.\n \n\n Errors along the line of \u201ccould not initialize database directory\u201d\n are most likely related to insufficient permissions on the data\n directory, a full disk, or other file system problems.\n \n\n Use DROP DATABASE to remove a database.\n \n\n The program createdb is a\n wrapper program around this command,\u2026",
+            "tokenCount": 308,
+            "rrfScore": 0.025779967159277505,
+            "denseRank": 27,
+            "lexicalRank": 10
+        },
+        {
+            "chunkId": 2905,
+            "docTitle": "23.2.\u00a0Creating a Database",
+            "headingPath": "23.2.\u00a0Creating a Database > 23.2. Creating a Database #",
+            "deepLink": "https://www.postgresql.org/docs/16/manage-ag-createdb.html#MANAGE-AG-CREATEDB",
+            "snippet": "23.2.\u00a0Creating a Database > 23.2. Creating a Database #\n\nTwo additional databases,\n template1\n and\n template0,\n are also created during database cluster initialization. Whenever a\n new database is created within the\n cluster, template1 is essentially cloned.\n This means that any changes you make in template1 are\n propagated to all subsequently created databases. Because of this,\n avoid creating ob\u2026",
+            "tokenCount": 465,
+            "rrfScore": 0.02567901234567901,
+            "denseRank": 21,
+            "lexicalRank": 15
+        },
+        {
+            "chunkId": 4709,
+            "docTitle": "73.1.\u00a0Database File Layout",
+            "headingPath": "73.1.\u00a0Database File Layout > 73.1. Database File Layout #",
+            "deepLink": "https://www.postgresql.org/docs/16/storage-file-layout.html#STORAGE-FILE-LAYOUT",
+            "snippet": "73.1.\u00a0Database File Layout > 73.1. Database File Layout #\n\n73.1.\u00a0Database File Layout #\n\nThis section describes the storage format at the level of files and\ndirectories.\n\nTraditionally, the configuration and data files used by a database\ncluster are stored together within the cluster's data\ndirectory, commonly referred to as PGDATA (after the name of the\nenvironment variable that can be used to de\u2026",
+            "tokenCount": 245,
+            "rrfScore": 0.02438307873090482,
+            "denseRank": 14,
+            "lexicalRank": 32
+        },
+        {
+            "chunkId": 2903,
+            "docTitle": "23.2.\u00a0Creating a Database",
+            "headingPath": "23.2.\u00a0Creating a Database > 23.2. Creating a Database #",
+            "deepLink": "https://www.postgresql.org/docs/16/manage-ag-createdb.html#MANAGE-AG-CREATEDB",
+            "snippet": "23.2.\u00a0Creating a Database > 23.2. Creating a Database #\n\nCREATE DATABASE name;",
+            "tokenCount": 22,
+            "rrfScore": 0.01639344262295082,
+            "denseRank": 1,
+            "lexicalRank": null
+        },
+        {
+            "chunkId": 3752,
+            "docTitle": "1.1.\u00a0Installation",
+            "headingPath": "1.1.\u00a0Installation > 1.1. Installation #",
+            "deepLink": "https://www.postgresql.org/docs/16/tutorial-install.html#TUTORIAL-INSTALL",
+            "snippet": "1.1.\u00a0Installation > 1.1. Installation #\n\nIf your site administrator has not set things up in the default\n way, you might have some more work to do. For example, if the\n database server machine is a remote machine, you will need to set\n the PGHOST environment variable to the name of the\n database server machine. The environment variable\n PGPORT might also have to be set. The bottom line is\n this: i\u2026",
+            "tokenCount": 199,
+            "rrfScore": 0.016129032258064516,
+            "denseRank": 2,
+            "lexicalRank": null
+        },
+        {
+            "chunkId": 658,
+            "docTitle": "20.1.\u00a0Setting Parameters",
+            "headingPath": "20.1.\u00a0Setting Parameters > 20.1. Setting Parameters # > 20.1.5. Managing Configuration File Contents #",
+            "deepLink": "https://www.postgresql.org/docs/16/config-setting.html#CONFIG-INCLUDES",
+            "snippet": "20.1.\u00a0Setting Parameters > 20.1. Setting Parameters # > 20.1.5. Managing Configuration File Contents #\n\nNon-absolute directory names are taken as relative to the directory\n containing the referencing configuration file. Within the specified\n directory, only non-directory files whose names end with the\n suffix .conf will be included. File names that\n start with the . character are also ignored, to\n\u2026",
+            "tokenCount": 470,
+            "rrfScore": 0.016129032258064516,
+            "denseRank": null,
+            "lexicalRank": 2
+        }
+    ],
+    "embedMs": 36,
+    "searchMs": 26
+}

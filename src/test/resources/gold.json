@@ -1,0 +1,7 @@
+{
+  "queries": [
+    { "q": "why is my connection being refused", "relevant": [1940, 1941] },
+    { "q": "how do I configure the database", "relevant": [2759, 658] },
+    { "q": "pg_hba.conf", "relevant": [447, 459, 458] }
+  ]
+}

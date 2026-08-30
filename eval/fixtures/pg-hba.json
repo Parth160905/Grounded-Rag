@@ -1,0 +1,95 @@
+{
+    "query": "pg_hba.conf",
+    "results": [
+        {
+            "chunkId": 447,
+            "docTitle": "21.1.\u00a0The pg_hba.conf File",
+            "headingPath": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #",
+            "deepLink": "https://www.postgresql.org/docs/16/auth-pg-hba-conf.html#AUTH-PG-HBA-CONF",
+            "snippet": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #\n\n21.1.\u00a0The pg_hba.conf File #\n\n Client authentication is controlled by a configuration file,\n which traditionally is named\n pg_hba.conf and is stored in the database\n cluster's data directory.\n (HBA stands for host-based authentication.) A default\n pg_hba.conf file is installed when the data\n directory is initialized by initdb. It is\n possi\u2026",
+            "tokenCount": 344,
+            "rrfScore": 0.03252247488101533,
+            "denseRank": 1,
+            "lexicalRank": 2
+        },
+        {
+            "chunkId": 459,
+            "docTitle": "21.1.\u00a0The pg_hba.conf File",
+            "headingPath": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #",
+            "deepLink": "https://www.postgresql.org/docs/16/auth-pg-hba-conf.html#AUTH-PG-HBA-CONF",
+            "snippet": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #\n\nThe pg_hba.conf file is read on start-up and when\n the main server process receives a\n SIGHUP\n signal. If you edit the file on an\n active system, you will need to signal the postmaster\n (using pg_ctl reload, calling the SQL function\n pg_reload_conf(), or using kill\n -HUP) to make it re-read the file.\n \n\nNote\n\n The preceding statement is no\u2026",
+            "tokenCount": 437,
+            "rrfScore": 0.03201844262295082,
+            "denseRank": 4,
+            "lexicalRank": 1
+        },
+        {
+            "chunkId": 458,
+            "docTitle": "21.1.\u00a0The pg_hba.conf File",
+            "headingPath": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #",
+            "deepLink": "https://www.postgresql.org/docs/16/auth-pg-hba-conf.html#AUTH-PG-HBA-CONF",
+            "snippet": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #\n\ninclude\n This line will be replaced by the contents of the given file.\n \n\ninclude_if_exists\n This line will be replaced by the content of the given file if the\n file exists. Otherwise, a message is logged to indicate that the file\n has been skipped.\n \n\ninclude_dir\n This line will be replaced by the contents of all the files found in\n the d\u2026",
+            "tokenCount": 450,
+            "rrfScore": 0.03125763125763126,
+            "denseRank": 5,
+            "lexicalRank": 3
+        },
+        {
+            "chunkId": 462,
+            "docTitle": "21.1.\u00a0The pg_hba.conf File",
+            "headingPath": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #",
+            "deepLink": "https://www.postgresql.org/docs/16/auth-pg-hba-conf.html#AUTH-PG-HBA-CONF",
+            "snippet": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #\n\n# If these are the only four lines for local connections, they will\n# allow local users to connect only to their own databases (databases\n# with the same name as their database user name) except for users whose\n# name end with \"helpdesk\", administrators and members of role \"support\",\n# who can connect to all databases. The file $PGDATA/adm\u2026",
+            "tokenCount": 224,
+            "rrfScore": 0.031024531024531024,
+            "denseRank": 3,
+            "lexicalRank": 6
+        },
+        {
+            "chunkId": 446,
+            "docTitle": "21.1.\u00a0The pg_hba.conf File",
+            "headingPath": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #",
+            "deepLink": "https://www.postgresql.org/docs/16/auth-pg-hba-conf.html#AUTH-PG-HBA-CONF",
+            "snippet": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #\n\nlocal               database  user  auth-method [auth-options]\nhost                database  user  address     auth-method  [auth-options]\nhostssl             database  user  address     auth-method  [auth-options]\nhostnossl           database  user  address     auth-method  [auth-options]\nhostgssenc          database  user  address     au\u2026",
+            "tokenCount": 285,
+            "rrfScore": 0.030017921146953404,
+            "denseRank": 2,
+            "lexicalRank": 12
+        },
+        {
+            "chunkId": 448,
+            "docTitle": "21.1.\u00a0The pg_hba.conf File",
+            "headingPath": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #",
+            "deepLink": "https://www.postgresql.org/docs/16/auth-pg-hba-conf.html#AUTH-PG-HBA-CONF",
+            "snippet": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #\n\nEach authentication record specifies a connection type, a client IP address\n range (if relevant for the connection type), a database name, a user name,\n and the authentication method to be used for connections matching\n these parameters. The first record with a matching connection type,\n client address, requested database, and user name is\u2026",
+            "tokenCount": 442,
+            "rrfScore": 0.029631255487269536,
+            "denseRank": 8,
+            "lexicalRank": 7
+        },
+        {
+            "chunkId": 453,
+            "docTitle": "21.1.\u00a0The pg_hba.conf File",
+            "headingPath": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #",
+            "deepLink": "https://www.postgresql.org/docs/16/auth-pg-hba-conf.html#AUTH-PG-HBA-CONF",
+            "snippet": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #\n\nIf a host name is specified (anything that is not an IP address\n range or a special key word is treated as a host name),\n that name is compared with the result of a reverse name\n resolution of the client's IP address (e.g., reverse DNS\n lookup, if DNS is used). Host name comparisons are case\n insensitive. If there is a match, then a forwar\u2026",
+            "tokenCount": 430,
+            "rrfScore": 0.029138513513513514,
+            "denseRank": 14,
+            "lexicalRank": 4
+        },
+        {
+            "chunkId": 450,
+            "docTitle": "21.1.\u00a0The pg_hba.conf File",
+            "headingPath": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #",
+            "deepLink": "https://www.postgresql.org/docs/16/auth-pg-hba-conf.html#AUTH-PG-HBA-CONF",
+            "snippet": "21.1.\u00a0The pg_hba.conf File > 21.1. The pg_hba.conf File #\n\ndatabase\n Specifies which database name(s) this record matches. The value\n all specifies that it matches all databases.\n The value sameuser specifies that the record\n matches if the requested database has the same name as the\n requested user. The value samerole specifies that\n the requested user must be a member of the role with the same\n \u2026",
+            "tokenCount": 424,
+            "rrfScore": 0.028381642512077296,
+            "denseRank": 12,
+            "lexicalRank": 9
+        }
+    ],
+    "embedMs": 9,
+    "searchMs": 6
+}
