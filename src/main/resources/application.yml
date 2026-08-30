@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: pgdocs-rag
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pgdocs
+    username: pgdocs
+    password: pgdocs
+    hikari:
+      # Ingestion workers each hold a connection while embedding. Keep the pool
+      # at or above worker count or workers will block on connection checkout
+      # rather than on actual work.
+      maximum-pool-size: 16
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  # Java 21 virtual threads. Ingestion is thousands of blocking calls with
+  # near-zero CPU between them — exactly the workload these were built for,
+  # and it means no reactive rewrite later.
+  threads:
+    virtual:
+      enabled: true
+
+ingest:
+  # Where the extracted PostgreSQL docs tarball lives.
+  #   curl -O https://ftp.postgresql.org/pub/docs/16/postgresql-16-A4.html.tar.gz
+  #   mkdir -p docs/pg16 && tar xzf postgresql-16-A4.html.tar.gz -C docs/pg16
+  docs-dir: ./docs/pg16
+  doc-version: "16"
+  base-url: https://www.postgresql.org/docs/16/
+
+  worker-count: 8
+  batch-size: 32
+  max-attempts: 3
+  lock-timeout: PT10M
+
+chunking:
+  # bge-small-en-v15 truncates at 512 tokens. Staying under it means no
+  # silent truncation — a chunk that gets cut mid-way embeds as something
+  # other than what the source panel will show the user.
+  max-tokens: 450
+  min-tokens: 60
+  # Chars per token for the rough pre-filter. English prose runs ~4;
+  # SQL synopses run denser, so this is deliberately conservative.
+  chars-per-token: 3.6
+
+logging:
+  level:
+    dev.pgdocs.rag: DEBUG
